@@ -13,5 +13,14 @@ Currently, this image is hosted on [Dockerhub](https://hub.docker.com/repository
 ## How to build image
 
 ```bash
-docker build .
+docker build . --build-arg "TERRAFORM_VERSION=*terraform-version*"
+```
+
+e.g.
+
+```bash
+docker build . --build-arg "TERRAFORM_VERSION=1.0.4" -t zipnz/az-terraform:latest
+docker build . --build-arg "TERRAFORM_VERSION=0.14.1" -t zipnz/az-terraform:0.14.1
+docker build . --build-arg "TERRAFORM_VERSION=0.13.4" -t zipnz/az-terraform:0.13.4
+...
 ```
