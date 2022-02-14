@@ -23,6 +23,12 @@ RUN apt-get update && apt-get install -y ca-certificates curl apt-transport-http
     echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | tee /etc/apt/sources.list.d/azure-cli.list && \
     apt-get update && apt-get install -y azure-cli
 
+RUN curl https://baltocdn.com/helm/signing.asc | sudo apt-key add - && \
+    apt-get install apt-transport-https --yes && \
+    echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list && \
+    apt-get update && \
+    apt-get install helm2
+
 RUN apt-get update && apt-get install -y gnupg2 curl apt-transport-https && \
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | tee /etc/apt/sources.list.d/msprod.list && \
