@@ -2,6 +2,10 @@ FROM ubuntu:18.04
 
 ARG TERRAFORM_VERSION
 
+WORKDIR /install
+
+COPY ./install-infracost.sh .
+
 RUN apt-get update && apt-get install jq wget zip gpg -y && \
     #include libc6-compat as a dep https://github.com/pulumi/pulumi/issues/1986
     wget "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" && \
@@ -23,11 +27,13 @@ RUN apt-get update && apt-get install -y ca-certificates curl apt-transport-http
     echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | tee /etc/apt/sources.list.d/azure-cli.list && \
     apt-get update && apt-get install -y azure-cli
 
-RUN curl https://baltocdn.com/helm/signing.asc | sudo apt-key add - && \
+RUN curl https://baltocdn.com/helm/signing.asc | apt-key add - && \
     apt-get install apt-transport-https --yes && \
     echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list && \
     apt-get update && \
     apt-get install helm2
+
+RUN ./install-infracost.sh
 
 RUN apt-get update && apt-get install -y gnupg2 curl apt-transport-https && \
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
